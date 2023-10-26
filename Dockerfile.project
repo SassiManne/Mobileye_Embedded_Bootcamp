@@ -1,0 +1,21 @@
+# Dockerfile.project
+
+# Use the previously created base image with all the heavy installations
+FROM haiku54/cvclient_base:latest
+
+# Copy the project-specific files into the image
+COPY ./CMakeLists.txt /app/CMakeLists.txt
+COPY CVClient/ /app/CVClient/
+COPY SharedComponents/ /app/SharedComponents/
+
+# Build the project
+RUN mkdir -p /app/build && cd /app/build && cmake .. && make
+
+# Set the working directory for subsequent commands and for when the container runs
+WORKDIR /app/build/bin
+
+# Make sure the CVClient binary is executable
+RUN chmod +x /app/build/bin/CVClient
+
+# Define the default command for when the container starts
+CMD ["/app/build/bin/CVClient"]

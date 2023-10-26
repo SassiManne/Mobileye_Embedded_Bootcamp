@@ -1,0 +1,11 @@
+# folsers
+/build
+/yolo_models
+/.vs
+
+#files
+/SharedComponents/grpc/CVService.g*
+/SharedComponents/grpc/CVService.pb*
+
+/CVClient/clientConfig.json
+/CVServer/serverConfig.json

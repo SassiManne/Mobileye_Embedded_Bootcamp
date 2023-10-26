@@ -1,0 +1,33 @@
+# Dockerfile.base
+
+# Start with an ARM64 Ubuntu image
+FROM arm64v8/ubuntu:22.04
+
+# Set the environment to non-interactive mode to avoid prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update and install necessary libraries and tools
+RUN apt-get update && apt-get install -y \
+    libspdlog-dev \
+    libopencv-dev \
+    cmake \
+    build-essential \
+    autoconf \
+    libtool \
+    pkg-config \
+    git \
+    nlohmann-json3-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set environment variables for the local installation directory
+ENV MY_INSTALL_DIR=/root/.local
+ENV PATH="$MY_INSTALL_DIR/bin:$PATH"
+
+# Install gRPC from a specific git version
+RUN mkdir -p /app/installation/grpc && cd /app/installation/grpc && \
+    git clone --recurse-submodules -b v1.59.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc && \
+    mkdir -p grpc/cmake/build && cd grpc/cmake/build && \
+    cmake -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=$MY_INSTALL_DIR ../.. && \
+    make -j4 && make install && \
+    rm -rf /app/installation/grpc  # Remove cloned repository to save space

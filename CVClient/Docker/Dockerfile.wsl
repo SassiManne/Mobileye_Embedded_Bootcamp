@@ -1,0 +1,33 @@
+#Docker file for run client on wsl (intel proccessor)
+
+# Start from the base Ubuntu image
+FROM ubuntu:22.04
+
+# Set the environment variable for non-interactive mode
+# This ensures that no prompts will ask for input during build
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update and install necessary libraries
+# libspdlog-dev and libopencv-dev are required for the project
+RUN apt-get update && apt-get install -y libspdlog-dev libopencv-dev
+
+# Set the working directory inside the container to /app
+# All subsequent commands will run from this directory
+WORKDIR /app/build/bin
+
+# Create the folder /app/CVClient
+RUN mkdir -p /app/CVClient
+RUN mkdir -p /app/build/bin
+
+
+# Copy the executable file from the host machine to the container
+# Note: Uncomment these lines if you want to add the CVClient file to the image
+COPY ./CVClient /app/build/bin/CVClient
+
+# Make the copied file executable, if it isn't already
+# Note: Uncomment this line if you've copied the CVClient file
+RUN chmod +x /app/build/bin/CVClient
+
+# Define the command that will run when the container starts
+# This sets the default command to run the CVClient executable
+CMD ["/app/build/bin/CVClient"]

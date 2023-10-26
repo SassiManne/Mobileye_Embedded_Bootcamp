@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package cvservice;
+
+enum ObjectType {
+    UNKNOWN = 0;
+    PERSON = 1;
+    CAR = 2;
+    // You can extend this enum with more object types in the future
+}
+
+message FrameRequest {
+    bytes image_data = 1;          // The content of the frame
+    int64 timestamp = 2;           // Timestamp (int64 for Unix timestamp in milliseconds)
+    int32 frame_id = 3;            // Frame ID
+    int32 camera_id = 4;           // Camera ID
+    ObjectType object_type = 5;    // Object type for identification
+    bool terminate_session = 6;    // Flag to terminate processing
+}
+
+message FrameResponse {
+    int32 status = 1;              // Status code (1 for success, 0 for error, etc.)
+    string message = 2;            // Additional message or details
+    int32 frames_received = 3;     // Number of frames received by the server
+}
+
+service CVService {
+    rpc ProcessFrame(stream FrameRequest) returns (FrameResponse);
+}
