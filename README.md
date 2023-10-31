@@ -47,6 +47,15 @@ The architecture abides by several design principles, ensuring modularity, exten
 - **AWS**: Provides a robust environment for the server component, ensuring scalability and reliability.
 - **Docker**: Facilitates consistent deployments across various environments, from local development to cloud-based production.
 - **gRPC**: Handles efficient communication between the client and server, promoting robust data transfer.
-- **Raspberry Pi & ARM**: Offers a versatile platform for the client, catering to a variety of deployment scenarios.
+- **Raspberry Pi**: Offers a versatile platform for the client, catering to a variety of deployment scenarios.
 - **CMake**: A cross-platform build system, aiding in compiling and managing the project.
+
+## UML Diagram of System Architecture
+
+*In green - the communication between the processes
+
+![Untitled-2023-10-31-2035](https://github.com/Haiku54/Mobileye_Embedded_Bootcamp/assets/80857560/a9499ed2-00a1-42b0-bf08-1ced2a068b46)
+
+
+
 
