@@ -50,6 +50,3 @@ The architecture abides by several design principles, ensuring modularity, exten
 - **Raspberry Pi & ARM**: Offers a versatile platform for the client, catering to a variety of deployment scenarios.
 - **CMake**: A cross-platform build system, aiding in compiling and managing the project.
 
-## Conclusion
-
-By merging cutting-edge technologies with foundational design principles, this Computer Vision Object Detection System stands as a comprehensive solution for real-time image analytics, catering to security, analytics, or research needs.
