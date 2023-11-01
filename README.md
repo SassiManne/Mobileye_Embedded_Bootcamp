@@ -54,7 +54,11 @@ The architecture abides by several design principles, ensuring modularity, exten
 
 *In green - the communication between the processes
 
-![Untitled-2023-10-31-2035](https://github.com/Haiku54/Mobileye_Embedded_Bootcamp/assets/80857560/a9499ed2-00a1-42b0-bf08-1ced2a068b46)
+<br>
+
+![Untitled-2023-10-31-2035](https://github.com/Haiku54/Mobileye_Embedded_Bootcamp/assets/80857560/ca1e3af9-6d51-4db6-a511-39cbfafcd3c5)
+
+
 
 
 
