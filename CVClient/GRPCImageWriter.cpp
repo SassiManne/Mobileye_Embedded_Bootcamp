@@ -5,24 +5,15 @@
 #include "CVService.pb.cc"
 #include "configJson.h"
 
-GRPCImageWriter::GRPCImageWriter(int camera_id, std::string serverIpAddress)
+GRPCImageWriter::GRPCImageWriter(int camera_id)
 {
-	this->camera_id = camera_id; // Set the camera id
-	std::string server_address;  // Server address to be used for creating the channel
+	// Get the server address from the JSON configuration
+	ConfigFactory* configFactory = ConfigFactory::getInstance();
+	json clientConfig = configFactory->getConfig("client");
 
-	// Check if the serverIpAddress argument is empty
-	if (serverIpAddress.empty())
-	{
-		// If serverIpAddress is empty, obtain the server address from the JSON configuration
-		ConfigFactory* configFactory = ConfigFactory::getInstance();
-		json clientConfig = configFactory->getConfig("client");
-		server_address = clientConfig["server_address"];
-	}
-	else
-	{
-		// If serverIpAddress is not empty, use it as the server address
-		server_address = serverIpAddress;
-	}
+	this->camera_id = camera_id; // Set the camera id
+	std::string server_address = clientConfig["server_address"];  // Server address to be used for creating the channel
+
 	
 	// Create channel to server
 	std::shared_ptr<grpc::Channel> channel;

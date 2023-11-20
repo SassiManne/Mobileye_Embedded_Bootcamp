@@ -32,7 +32,8 @@ void VideoSource::ReadImages(std::atomic<bool>* isRunning) {
     cv::Mat currentFrame , previousFrame;
     cv::VideoCapture capture;
 
-    if (this->path.empty()) {
+    String path = clientConfig["video_path"];
+    if (path == "0") {
         capture.open(0);  // Open default camera if path is empty
     }
     else {
@@ -71,13 +72,13 @@ void VideoSource::ReadImages(std::atomic<bool>* isRunning) {
             this->PushImage(currentFrame, currentFrameNumber , currentTimestamp);
             previousFrame = currentFrame.clone();
 
-            //int windowWidth = 1200;
-            //int windowHeight = 620;
-            //cv::resize(currentFrame, currentFrame, cv::Size(windowWidth, windowHeight));
-            //cv::imshow("output", currentFrame);
+            int windowWidth = 1200;
+            int windowHeight = 620;
+            cv::resize(currentFrame, currentFrame, cv::Size(windowWidth, windowHeight));
+            cv::imshow("output", currentFrame);
         }
 
-        //int key = cv::waitKey(1);
+        int key = cv::waitKey(1);
 
         // Sleep for 1ms
         std::this_thread::sleep_for(chrono::milliseconds(250));

@@ -4,23 +4,18 @@
 
 class VideoSource : public ICamera
 {
-    string path;
 
 
 public:
-    VideoSource(string path)
-    {
-        this->path = path;
-    }
+    VideoSource()
+    {}
 
     void ReadImages(std::atomic<bool>* isRunning) override;
     void PushImage(cv::Mat& image, int frameNumber,double currentTimestamp) override;
     bool IsSimilarFrame(cv::Mat& currentFrame, cv::Mat& previousFrame, float percentage) ;
 
     ~VideoSource()
-    {
-        //delete this->frames;
-    }
+    {}
 private:
 
  

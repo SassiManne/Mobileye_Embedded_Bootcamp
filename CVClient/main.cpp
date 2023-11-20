@@ -21,23 +21,29 @@
 
 std::atomic<bool> isRunning(true);  // Atomic boolean to manage the running state of threads
 
-int main()
+// first argument is the path to the video file, if 0 is passed as an argument, the default camera will be used
+// second argument is the ip address of the server. if 0 is passed as an argument, the default ip address will be used
+// if no arguments are passed, the default values will be used from the config file
+int main(int argc, char** argv)
 {
     Logger::Init();  // Initialize the logger
 
-    std::string videoPath, serverIpAddress;  // Variables to hold user input for video path and server IP address
+    ConfigFactory* configFactory = ConfigFactory::getInstance();
+    json clientConfig = configFactory->getConfig("client");
 
-    // Prompt user for video path, with default to computer camera if Enter is pressed
-    std::cout << "Enter video path, press Enter for the computer camera: ";
-    std::getline(std::cin, videoPath);
+    // Check if the user has passed arguments to the program
+    // If so, update the config file with the new values, and from now, use the new values even if the user doesn't pass arguments, because the config file will be updated
+    // it is usful for docker containers, where the user can pass arguments to the program when running the container, and when the rp is restarted(turn on), the new values will be used
+    if (argc > 2)
+    {
+        if(argv[1] != "0") configFactory->updateConfigValue("video_path", argv[1], "client");
+        if(argv[2] != "0") configFactory->updateConfigValue( "server_address", argv[2], "client");
+    }
 
-    // Prompt user for server IP address, with default to configuration file value if Enter is pressed
-    std::cout << "Enter server ip address, (press Enter for the default address (from the config file): ";
-    std::getline(std::cin, serverIpAddress);
 
     // Create camera and writer objects based on user input or default values
-    ICamera* cam = new VideoSource(videoPath);
-    ImageWriter* writer = new GRPCImageWriter(1, serverIpAddress);
+    ICamera* cam = new VideoSource();
+    ImageWriter* writer = new GRPCImageWriter(1);
 
     // Launch camera and server threads
     std::thread cameraThread([&]() {cam->ReadImages(&isRunning); });

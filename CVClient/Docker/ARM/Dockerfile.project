@@ -5,8 +5,8 @@ FROM haiku54/cvclient_base:latest
 
 # Copy the project-specific files into the image
 COPY ./CMakeLists.txt /app/CMakeLists.txt
-COPY ../../../CVClient/ /app/CVClient/
-COPY ../../../SharedComponents/ /app/SharedComponents/
+COPY CVClient/ /app/CVClient/
+COPY SharedComponents/ /app/SharedComponents/
 
 # Build the project
 RUN mkdir -p /app/build && cd /app/build && cmake .. && make
@@ -17,5 +17,13 @@ WORKDIR /app/build/bin
 # Make sure the CVClient binary is executable
 RUN chmod +x /app/build/bin/CVClient
 
-# Define the default command for when the container starts
-CMD ["/app/build/bin/CVClient"]
+# Use the ENTRYPOINT to define the default executable of the container.
+# Here, it's set to run the CVClient binary.
+# When the container starts, this binary will be executed.
+ENTRYPOINT ["/app/build/bin/CVClient"]
+
+# The CMD provides default arguments to the ENTRYPOINT.
+# In this case, it's empty, allowing you to pass custom arguments at runtime.
+# If no arguments are passed, the CVClient will run with its default settings.
+CMD []
+

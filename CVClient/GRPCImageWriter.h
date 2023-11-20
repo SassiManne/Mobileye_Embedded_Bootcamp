@@ -14,7 +14,7 @@ class GRPCImageWriter : public ImageWriter {
 
 public:
 
-    GRPCImageWriter( int camera_id, std::string serverIpAddress);
+    GRPCImageWriter( int camera_id);
 
     // Write frames to the grpc server
     bool write(SafeQueue<Frame> &queue, std::atomic<bool>* isRunning) override;
