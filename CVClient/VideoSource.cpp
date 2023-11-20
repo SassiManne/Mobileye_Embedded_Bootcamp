@@ -34,7 +34,13 @@ void VideoSource::ReadImages(std::atomic<bool>* isRunning) {
 
     String path = clientConfig["video_path"];
     if (path == "0") {
-        capture.open(0);  // Open default camera if path is empty
+        #ifdef _WIN32
+         // Use DirectShow or Media Foundation on Windows
+         capture.open(0, cv::CAP_DSHOW);
+        #else
+        // Use V4L2 on Linux
+        capture.open(0, cv::CAP_V4L2);
+        #endif
     }
     else {
         capture.open(path);  // Otherwise, open the camera (or video) specified by the path
@@ -72,13 +78,13 @@ void VideoSource::ReadImages(std::atomic<bool>* isRunning) {
             this->PushImage(currentFrame, currentFrameNumber , currentTimestamp);
             previousFrame = currentFrame.clone();
 
-            int windowWidth = 1200;
+            /*int windowWidth = 1200;
             int windowHeight = 620;
             cv::resize(currentFrame, currentFrame, cv::Size(windowWidth, windowHeight));
-            cv::imshow("output", currentFrame);
+            cv::imshow("output", currentFrame);*/
         }
 
-        int key = cv::waitKey(1);
+        //int key = cv::waitKey(1);
 
         // Sleep for 1ms
         std::this_thread::sleep_for(chrono::milliseconds(250));

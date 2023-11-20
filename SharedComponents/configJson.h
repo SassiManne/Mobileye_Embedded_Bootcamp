@@ -34,7 +34,7 @@ public:
     json getConfig(const std::string& context);
 
     // Update a configuration value and save it to the file.
-    void ConfigFactory::updateConfigValue(const std::string& key, const json& value, const std::string& context);
+    void updateConfigValue(const std::string& key, const json& value, const std::string& context);
 };
 
 #endif // CONFIGFACTORY_H
