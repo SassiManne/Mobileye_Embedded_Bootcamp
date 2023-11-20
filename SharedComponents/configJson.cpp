@@ -111,6 +111,7 @@ json ConfigFactory::createClientConfig() {
 	clientConfig["threshold"] = 0.5,
 	clientConfig["queueSize"] = 5,
 	clientConfig["server_address"] = "35.173.195.131:50050";
+    clientConfig["video_path"] = "0"; // 0 for computer camera
 
 	return clientConfig;
 }
@@ -141,6 +142,9 @@ ConfigFactory* ConfigFactory::getInstance() {
 // If the file doesn't exist, it creates it with default values.
 // Then loads the JSON data into the private member and returns it.
 json ConfigFactory::getConfig(const std::string& context) {
+    // If the configData is not null, return it.
+    if(!this->configData.is_null()) return this->configData ;
+
 	std::string filepath = (context == "server") ? "../../CVServer/serverConfig.json" : "../../CVClient/clientConfig.json";
 
 	std::ifstream file(filepath);
@@ -153,6 +157,19 @@ json ConfigFactory::getConfig(const std::string& context) {
 	}
 	return configData;
 }
+
+// Update a configuration value and save it to the file.
+void ConfigFactory::updateConfigValue(const std::string& key, const json& value, const std::string& context) {
+    // Update the value in memory
+    this->configData[key] = value;
+
+    // Determine the file path based on the context
+    std::string filepath = (context == "server") ? "../../CVServer/serverConfig.json" : "../../CVClient/clientConfig.json";
+
+    // Save the updated configuration to the file
+    saveToFile(filepath);
+}
+
 
 
 

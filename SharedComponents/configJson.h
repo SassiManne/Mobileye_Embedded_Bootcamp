@@ -7,7 +7,7 @@ using json = nlohmann::json;
 
 class ConfigFactory {
 private:
-    json configData;  // Private member to store the JSON data
+    json configData ;  // Private member to store the JSON data
 
     static ConfigFactory* instance;  // Pointer to the single instance of the class
 
@@ -32,6 +32,9 @@ public:
 
     // Factory method to get the configuration.
     json getConfig(const std::string& context);
+
+    // Update a configuration value and save it to the file.
+    void ConfigFactory::updateConfigValue(const std::string& key, const json& value, const std::string& context);
 };
 
 #endif // CONFIGFACTORY_H
