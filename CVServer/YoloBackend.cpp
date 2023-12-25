@@ -102,8 +102,8 @@ void YoloBackend::RunDetection(SafeQueue<Frame>& frames, std::atomic<bool>* isRu
        }
        */
 
-        //imshow("Output", currentFrame.frame);
-        //waitKey(1);
+        imshow("Output", currentFrame.frame);
+        waitKey(1);
        
     }
     Logger::getInfoInstance().logInfo("Detection Complete");

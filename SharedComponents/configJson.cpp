@@ -110,7 +110,7 @@ json ConfigFactory::createClientConfig() {
 	json clientConfig;
 	clientConfig["threshold"] = 0.5,
 	clientConfig["queueSize"] = 5,
-	clientConfig["server_address"] = "35.173.195.131:50050";
+	clientConfig["server_address"] = "127.0.0.1:50050";
     clientConfig["video_path"] = "0"; // 0 for computer camera
 
 	return clientConfig;
