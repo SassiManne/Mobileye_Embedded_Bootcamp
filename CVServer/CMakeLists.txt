@@ -55,6 +55,7 @@ set(SOURCE_FILES
 # Header files (for clarity, even though they are not required for building an executable)
 set(HEADER_FILES
     IBackend.hpp
+    IDB.hpp
     yoloBackend.h
     ../SharedComponents/structs.h
     ../SharedComponents/Logger.h

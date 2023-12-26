@@ -60,12 +60,12 @@ int main()
         // Create backend, reader, and database objects
         IBackend* backend = new YoloBackend(idToDetect);
         ImageReader* reader = new GRPCImageReader();
-        SqlDB dataBase;
-
+        IDB* dataBase = new SqlDB();
+     
         // Launch threads for gRPC server, backend processing, and database writing
         std::thread grpcServerThread([&]() {reader->read(&isRunning); });
         std::thread backendThread([&]() {backend->RunDetection(reader->GetFramesQueue(), &isRunning); });
-        std::thread saveToSqliteThread([&]() {dataBase.writeDetectionQueue(backend->GetResults(), &isRunning); });
+        std::thread saveToSqliteThread([&]() {dataBase->writeDetectionQueue(backend->GetResults(), &isRunning); });
 
         // Wait for user input to terminate the program
         cin.get();
